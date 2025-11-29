@@ -1,3 +1,4 @@
+from docutils.nodes import title
 from flask import Flask, render_template, request, redirect, url_for, session
 import wikipedia
 
@@ -19,7 +20,7 @@ def home():
 @app.route('/about')
 def about():
     """About page route."""
-    return "I am still working on this"
+    return render_template("about.html")
 
 
 @app.route('/search', methods=['POST', 'GET'])
@@ -36,7 +37,7 @@ def results():
     """Results page route. Render the search results."""
     search_term = session['search_term']
     page = get_page(search_term)
-    return render_template("results.html", page=page)
+    return render_template("results.html", page=page, title="Results")
 
 
 def get_page(search_term):
@@ -57,7 +58,6 @@ def get_page(search_term):
             title = page_titles[1]
         page = get_page(wikipedia.page(title))
     return page
-
 
 if __name__ == '__main__':
     app.run()
